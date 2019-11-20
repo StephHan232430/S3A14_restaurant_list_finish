@@ -39,6 +39,7 @@ app.use(methodOverride('_method'))
 app.use('/', require('./routes/home'))
 app.use('/restaurants', require('./routes/restaurant'))
 app.use('/search', require('./routes/search'))
+app.use('/users', require('./routes/user'))
 
 // 啟動並監聽伺服器
 app.listen(3000, () => {
