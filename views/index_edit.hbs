@@ -1,0 +1,89 @@
+<form method="POST" action="/restaurants/{{{restaurant.id}}}?_method=PUT">
+
+  <div class="container my-3">
+    <h1 class="text-secondary input-show-title">英文餐廳名：
+      <input type="text" name="name_en" value="{{{restaurant.name_en}}}" required>
+    </h1>
+
+    <h1 class="text-secondary input-show-title">中文餐廳名：
+      <input type="text" name="name" value="{{{restaurant.name}}}" required>
+    </h1>
+  </div>
+
+  <div class="container">
+    <div class="card col-6 m-auto">
+      <div class="card-body">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <span class="text-secondary">類別</span>
+            </div>
+          </div>
+          <input class="col-10" type="text" name="category" value="{{{restaurant.category}}}" required>
+        </div>
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <span class="text-secondary">圖片</span>
+            </div>
+          </div>
+          <input class="col-10" type="text" name="category" value="{{{restaurant.image}}}" required>
+        </div>
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <span class="text-secondary">地址</span>
+            </div>
+          </div>
+          <input class="col-10" type="text" name="category" value="{{{restaurant.location}}}" required>
+        </div>
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <span class="text-secondary">地圖</span>
+            </div>
+          </div>
+          <input class="col-10" type="text" name="category" value="{{{restaurant.google_map}}}" required>
+        </div>
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <span class="text-secondary">電話</span>
+            </div>
+          </div>
+          <input class="col-10" type="text" name="category" value="{{{restaurant.phone}}}" required>
+        </div>
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <span class="text-secondary">評分</span>
+            </div>
+          </div>
+          <input class="col-10" type="text" name="category" value="{{{restaurant.rating}}}" required>
+        </div>
+
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <span class="text-secondary">描述</span>
+            </div>
+          </div>
+          <input class="col-10" type="text" name="category" value="{{{restaurant.description}}}">
+        </div>
+      </div>
+    </div>
+
+    <div class="button-wrapper mt-5 text-center">
+      <a class="btn btn-secondary mr-5" href="{{{backURL}}}" role="button">Cancel</a>
+      <button class="btn btn-success" type="submit">
+        <a href="/restaurants"></a>
+        Save
+      </button>
+    </div>
+  </div>
+</form>

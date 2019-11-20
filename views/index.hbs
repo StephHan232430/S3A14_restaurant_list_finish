@@ -1,0 +1,91 @@
+<!-- search bar & sort-->
+<div class="container mt-5">
+  <div class="toolbar">
+    <div class="input-group justify-content-between">
+      <form class="col-4" action="/search">
+        <input type="text" name="keyword" class="form-control fas" placeholder="&#xf002" aria-label="Restaurant Name..."
+          value="{{keyword}}" aria-describedby="search-button">
+      </form>
+
+      <div class="sort-drop">
+        <div class="btn-group">
+          <button type="button" class="btn btn-lg btn-secondary dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            {{#unless sortType}}
+            Sort
+            {{/unless}}
+            {{#if sortType}}
+            {{{sortType}}}
+            {{/if}}
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/search?{{#if keyword}}keyword={{keyword}}&{{/if}}sort=ascend">英文店名A - Z</a>
+            <a class="dropdown-item" href="/search?{{#if keyword}}keyword={{keyword}}&{{/if}}sort=descend">英文店名Z - A</a>
+            <a class="dropdown-item" href="/search?{{#if keyword}}keyword={{keyword}}&{{/if}}sort=category">類別</a>
+            <a class="dropdown-item" href="/search?{{#if keyword}}keyword={{keyword}}&{{/if}}sort=location">地區</a>
+            <a class="dropdown-item"
+              href="/search?{{#if keyword}}keyword={{keyword}}&{{/if}}sort=ratingDescend">評分高至低</a>
+            <a class="dropdown-item"
+              href="/search?{{#if keyword}}keyword={{keyword}}&{{/if}}sort=ratingAscend">評分低至高</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row mx-auto">
+    {{#each restaurants}}
+    <div class="col-md-4 col-4">
+      <div class="card-rows">
+        <a href="/restaurants/{{{this.id}}}" class="text-secondary">
+          <div class="card mb-3">
+            <img class="card-img-top" src="{{{this.image}}}" alt="{{{this.name}}}">
+            <div class="card-body p-3">
+              <h6 class="card-title mb-1">{{{this.name_en}}}</h6>
+              <h6 class="card-title mb-1">{{{this.name}}}</h6>
+              {{{this.location}}}
+
+              <div class="restaurant-category mb-1">
+                <i class="fas fa-utensils pr-2"></i> {{{this.category}}}
+              </div>
+
+              <span class="badge badge-pill badge-danger font-weight-normal">
+                {{{this.rating}}}
+                <i class="fas fa-star fa-xs"></i>
+              </span>
+            </div>
+            <div class="card-footer text-center">
+              <a class="btn btn-warning mr-3 px-3" href="/restaurants/{{{this.id}}}/index_edit" role="button">Edit</a>
+
+              <a class="btn btn-info mr-3" href="/restaurants/{{{this.id}}}" role="button">Detail</a>
+
+              <a class="btn btn-danger mr-3" href="/restaurants/{{{this.id}}}/delete" role="button">Delete
+              </a>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    {{/each}}
+
+    <div class="col-md-4 col-4 mb-3 text-center">
+      <div class="card new-item pt-5 pb-5">
+        <div class="icon-wrapper pt-5 pb-5">
+          <div class="icon-container py-4">
+            <a href="/restaurants/new"><i class="fas fa-plus-circle fa-4x pt-5 pb-5"></i></a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#if noMatched}}
+<div class="container">
+  <h2>查無此餐廳</h2>
+</div>
+{{/if}}

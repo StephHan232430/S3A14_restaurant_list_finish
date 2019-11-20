@@ -1,0 +1,17 @@
+<div class="warning-page col-6 pt-5 mx-auto" id="deletion-alert">
+  <div class="card">
+    <h5 class="card-header">確定要刪除 <strong class="text-danger">{{{restaurant.name}}}</strong> ？</h5>
+    <div class="card-body">
+      <h5 class="card-title">
+        取消刪除請按
+        <a href="{{{backURL}}}" class="btn btn-secondary">Cancel</a>
+        ，確認刪除請按
+        <form method="POST" action="/restaurants/{{{restaurant.id}}}/delete?_method=DELETE" style="display: inline;">
+          <button class="btn btn-danger mr-5" type="submit">
+            Confirm
+          </button>
+        </form>
+      </h5>
+    </div>
+  </div>
+</div>
