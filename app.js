@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const session = require('express-session')
+const passport = require('passport')
 
 // 設定連線至mongoDB，連線後回傳connection物件
 mongoose.connect('mongodb://localhost/restaurants', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -42,6 +43,19 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+
+// 使用passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+// 載入passport config
+require('./config/passport')(passport)
+
+// 把req.user內的使用者資訊放進res.locals，方便後續使用
+app.use((req, res, next) => {
+  res.locals.user = req.user
+  next()
+})
 
 // 設定路由
 app.use('/', require('./routes/home'))
