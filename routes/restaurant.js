@@ -2,17 +2,20 @@ const express = require('express')
 const router = express.Router()
 const Restaurant = require('../models/restaurant')
 
-router.get('/', (req, res) => {
+// 載入auth middleware裡的authenticated方法
+const { authenticated } = require('../config/auth')
+
+router.get('/', authenticated, (req, res) => {
   return res.redirect('/restaurants')
 })
 
 // 新增一間restaurant頁面
-router.get('/new', (req, res) => {
+router.get('/new', authenticated, (req, res) => {
   res.render('new')
 })
 
 // 新增一間restaurant
-router.post('/', (req, res) => {
+router.post('/', authenticated, (req, res) => {
   // 建立Restaurant model的實例
   const restaurant = new Restaurant({
     name: req.body.name,
@@ -33,7 +36,7 @@ router.post('/', (req, res) => {
 })
 
 // 顯示一間restaurant的詳細資訊
-router.get('/:id', (req, res) => {
+router.get('/:id', authenticated, (req, res) => {
   Restaurant.findById(req.params.id, (err, restaurant) => {
     if (err) return console.error(err)
     return res.render('detail', { restaurant })
@@ -41,7 +44,7 @@ router.get('/:id', (req, res) => {
 })
 
 // detail頁面的restaurant修改頁面
-router.get('/:id/detail_edit', (req, res) => {
+router.get('/:id/detail_edit', authenticated, (req, res) => {
   const backURL = req.headers.referer
   Restaurant.findById(req.params.id, (err, restaurant) => {
     if (err) return console.error(err)
@@ -50,7 +53,7 @@ router.get('/:id/detail_edit', (req, res) => {
 })
 
 // index頁面的restaurant修改頁面
-router.get('/:id/index_edit', (req, res) => {
+router.get('/:id/index_edit', authenticated, (req, res) => {
   const backURL = req.headers.referer
   Restaurant.findById(req.params.id, (err, restaurant) => {
     if (err) return console.error(err)
@@ -59,7 +62,7 @@ router.get('/:id/index_edit', (req, res) => {
 })
 
 // 以session紀錄進入編輯模式的路徑，修改restaurant後，依session的記錄代號重導向至對應頁面
-router.put('/:id', (req, res) => {
+router.put('/:id', authenticated, (req, res) => {
   if (req.headers.referer.includes('detail')) {
     req.session = 1
   } else if (req.headers.referer.includes('index')) {
@@ -89,7 +92,7 @@ router.put('/:id', (req, res) => {
 })
 
 // 確認刪除restaurant頁面
-router.get('/:id/delete', (req, res) => {
+router.get('/:id/delete', authenticated, (req, res) => {
   const backURL = req.headers.referer
   Restaurant.findById(req.params.id, (err, restaurant) => {
     if (err) return console.error(err)
@@ -98,7 +101,7 @@ router.get('/:id/delete', (req, res) => {
 })
 
 // 刪除restaurant
-router.delete('/:id/delete', (req, res) => {
+router.delete('/:id/delete', authenticated, (req, res) => {
   Restaurant.findById(req.params.id, (err, restaurant) => {
     if (err) return console.error(err)
     restaurant.remove(err => {

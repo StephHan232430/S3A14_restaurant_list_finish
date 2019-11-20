@@ -2,7 +2,10 @@ const express = require('express')
 const router = express.Router()
 const Restaurant = require('../models/restaurant')
 
-router.get('/', (req, res) => {
+// 載入auth middleware裡的authenticated方法
+const { authenticated } = require('../config/auth')
+
+router.get('/', authenticated, (req, res) => {
   const keyword = req.query.keyword
   const sort = req.query.sort
   const regex = new RegExp(keyword, 'i')

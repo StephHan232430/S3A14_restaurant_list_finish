@@ -21,9 +21,6 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
-// 載入Restaurant model
-const Restaurant = require('./models/restaurant')
-
 // 設定靜態資料夾
 app.use(express.static('public'))
 
