@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
+const session = require('express-session')
 
 // 設定連線至mongoDB，連線後回傳connection物件
 mongoose.connect('mongodb://localhost/restaurants', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -34,6 +35,13 @@ app.set('view engine', 'hbs')
 
 // 設定method-override
 app.use(methodOverride('_method'))
+
+// 設定express-session
+app.use(session({
+  secret: 'restaurants',
+  resave: false,
+  saveUninitialized: true
+}))
 
 // 設定路由
 app.use('/', require('./routes/home'))
