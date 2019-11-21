@@ -48,9 +48,11 @@ app.use(passport.session())
 // 載入passport config
 require('./config/passport')(passport)
 
-// 把req.user內的使用者資訊放進res.locals，方便後續使用
+// 把req.user內的使用者資訊放進res.locals，方便後續view使用
+// 把req.isAuthenticated()結果放進res.locals，讓view可以用來辨識使用者是否已登入
 app.use((req, res, next) => {
   res.locals.user = req.user
+  res.locals.isAuthenticated = req.isAuthenticated()
   next()
 })
 
