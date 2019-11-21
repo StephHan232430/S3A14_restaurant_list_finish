@@ -5,3 +5,4 @@ Icon?
 package-lock.json
 *.log
 *.gz
+.env

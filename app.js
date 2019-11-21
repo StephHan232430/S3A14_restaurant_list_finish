@@ -1,6 +1,12 @@
 // 載入框架、套件
 const express = require('express')
 const app = express()
+
+// 判別開發環境，如果不是正式上線模式，就使用dotenv讀取.env檔案
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -61,6 +67,7 @@ app.use('/', require('./routes/home'))
 app.use('/restaurants', require('./routes/restaurant'))
 app.use('/search', require('./routes/search'))
 app.use('/users', require('./routes/user'))
+app.use('/auth', require('./routes/auths'))
 
 // 啟動並監聽伺服器
 app.listen(3000, () => {

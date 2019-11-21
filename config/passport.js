@@ -1,4 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy
+// 載入passport-facebook，加入FacebookStrategy常數
+const FacebookStrategy = require('passport-facebook').Strategy
 const mongoose = require('mongoose')
 const User = require('../models/user')
 const bcrypt = require('bcryptjs')
@@ -25,6 +27,40 @@ module.exports = passport => {
       })
     })
   )
+
+  passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_ID,
+    clientSecret: process.env.FACEBOOK_SECRET,
+    callbackURL: process.env.FACEBOOK_CALLBACK,
+    profileFields: ['email', 'displayName']
+  }, (accessToken, refreshToken, profile, done) => {
+    User.findOne({ email: profile._json.email })
+      .then(user => {
+        // 若查無user，代表使用者未註冊過，產生亂數密碼雜湊後，依facebook回傳之profile._json內容建立新使用者，並存入資料庫; 若有則直接將null和user傳入done完成驗證
+        if (!user) {
+          const randomPassword = Math.random().toString(36).slice(-8)
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(randomPassword, salt, (err, hash) => {
+              const newUser = User({
+                name: profile._json.name,
+                email: profile._json.email,
+                password: hash
+              })
+              newUser.save()
+                .then(user => {
+                  return done(null, user)
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            })
+          })
+        } else {
+          return done(null, user)
+        }
+      })
+  }
+  ))
 
   passport.serializeUser((user, done) => {
     done(null, user.id)
