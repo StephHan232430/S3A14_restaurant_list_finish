@@ -9,7 +9,7 @@ const session = require('express-session')
 const passport = require('passport')
 
 // 設定連線至mongoDB，連線後回傳connection物件
-mongoose.connect('mongodb://localhost/restaurants', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/restaurants', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 const db = mongoose.connection
 // db連線異常
 db.on('error', () => {

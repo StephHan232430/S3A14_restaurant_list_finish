@@ -16,7 +16,7 @@
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text">
-              <span class="text-secondary">類別</span>
+              <span class="text-secondary">類型</span>
             </div>
           </div>
           <input class="col-10" type="text" name="category" value="{{{restaurant.category}}}" required>
@@ -28,7 +28,7 @@
               <span class="text-secondary">圖片</span>
             </div>
           </div>
-          <input class="col-10" type="text" name="category" value="{{{restaurant.image}}}" required>
+          <input class="col-10" type="url" name="image" value="{{{restaurant.image}}}" required>
         </div>
 
         <div class="input-group">
@@ -37,7 +37,7 @@
               <span class="text-secondary">地址</span>
             </div>
           </div>
-          <input class="col-10" type="text" name="category" value="{{{restaurant.location}}}" required>
+          <input class="col-10" type="text" name="location" value="{{{restaurant.location}}}" required>
         </div>
 
         <div class="input-group">
@@ -46,7 +46,7 @@
               <span class="text-secondary">地圖</span>
             </div>
           </div>
-          <input class="col-10" type="text" name="category" value="{{{restaurant.google_map}}}" required>
+          <input class="col-10" type="url" name="google_map" value="{{{restaurant.google_map}}}" required>
         </div>
 
         <div class="input-group">
@@ -55,7 +55,7 @@
               <span class="text-secondary">電話</span>
             </div>
           </div>
-          <input class="col-10" type="text" name="category" value="{{{restaurant.phone}}}" required>
+          <input class="col-10" type="tel" name="phone" value="{{{restaurant.phone}}}" required>
         </div>
 
         <div class="input-group">
@@ -64,7 +64,8 @@
               <span class="text-secondary">評分</span>
             </div>
           </div>
-          <input class="col-10" type="text" name="category" value="{{{restaurant.rating}}}" required>
+          <input class="col-10" type="number" name="rating" min="0" max="5" step="0.05" value="{{{restaurant.rating}}}"
+            required>
         </div>
 
         <div class="input-group">
@@ -73,7 +74,7 @@
               <span class="text-secondary">描述</span>
             </div>
           </div>
-          <input class="col-10" type="text" name="category" value="{{{restaurant.description}}}">
+          <input class="col-10" type="text" name="description" value="{{{restaurant.description}}}">
         </div>
       </div>
     </div>

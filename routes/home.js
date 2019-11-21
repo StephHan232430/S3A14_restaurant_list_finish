@@ -7,7 +7,7 @@ const { authenticated } = require('../config/auth')
 
 // restaurant首頁，加入authenticated驗證
 router.get('/', authenticated, (req, res) => {
-  Restaurant.find({})
+  Restaurant.find({ userId: req.user._id })
     .sort({ _id: 'asc' })
     .exec((err, restaurants) => {
       if (err) return console.error(err)

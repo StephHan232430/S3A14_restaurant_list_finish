@@ -26,7 +26,9 @@ router.post('/', authenticated, (req, res) => {
     google_map: req.body.google_map,
     phone: req.body.phone,
     rating: req.body.rating,
-    description: req.body.description
+    description: req.body.description,
+    // 因Restaurant與User建立了關聯，需加入userId屬性
+    userId: req.user._id
   })
   // 存入資料庫
   restaurant.save(err => {
@@ -37,7 +39,7 @@ router.post('/', authenticated, (req, res) => {
 
 // 顯示一間restaurant的詳細資訊
 router.get('/:id', authenticated, (req, res) => {
-  Restaurant.findById(req.params.id, (err, restaurant) => {
+  Restaurant.findOne({ _id: req.params.id, userId: req.user.id }, (err, restaurant) => {
     if (err) return console.error(err)
     return res.render('detail', { restaurant })
   })
@@ -46,7 +48,7 @@ router.get('/:id', authenticated, (req, res) => {
 // detail頁面的restaurant修改頁面
 router.get('/:id/detail_edit', authenticated, (req, res) => {
   const backURL = req.headers.referer
-  Restaurant.findById(req.params.id, (err, restaurant) => {
+  Restaurant.findOne({ _id: req.params.id, userId: req.user.id }, (err, restaurant) => {
     if (err) return console.error(err)
     return res.render('detail_edit', { restaurant, backURL })
   })
@@ -55,7 +57,7 @@ router.get('/:id/detail_edit', authenticated, (req, res) => {
 // index頁面的restaurant修改頁面
 router.get('/:id/index_edit', authenticated, (req, res) => {
   const backURL = req.headers.referer
-  Restaurant.findById(req.params.id, (err, restaurant) => {
+  Restaurant.findOne({ _id: req.params.id, userId: req.user.id }, (err, restaurant) => {
     if (err) return console.error(err)
     return res.render('index_edit', { restaurant, backURL })
   })
@@ -68,7 +70,7 @@ router.put('/:id', authenticated, (req, res) => {
   } else if (req.headers.referer.includes('index')) {
     req.session = 0
   }
-  Restaurant.findById(req.params.id, (err, restaurant) => {
+  Restaurant.findOne({ _id: req.params.id, userId: req.user.id }, (err, restaurant) => {
     if (err) return console.error(err)
     restaurant.name = req.body.name
     restaurant.name_en = req.body.name_en
@@ -94,7 +96,7 @@ router.put('/:id', authenticated, (req, res) => {
 // 確認刪除restaurant頁面
 router.get('/:id/delete', authenticated, (req, res) => {
   const backURL = req.headers.referer
-  Restaurant.findById(req.params.id, (err, restaurant) => {
+  Restaurant.findOne({ _id: req.params.id, userId: req.user.id }, (err, restaurant) => {
     if (err) return console.error(err)
     return res.render('warning', { restaurant, backURL })
   })
@@ -102,7 +104,7 @@ router.get('/:id/delete', authenticated, (req, res) => {
 
 // 刪除restaurant
 router.delete('/:id/delete', authenticated, (req, res) => {
-  Restaurant.findById(req.params.id, (err, restaurant) => {
+  Restaurant.findOne({ _id: req.params.id, userId: req.user.id }, (err, restaurant) => {
     if (err) return console.error(err)
     restaurant.remove(err => {
       if (err) return console.error(err)
