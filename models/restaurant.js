@@ -16,7 +16,6 @@ const restaurantSchema = new Schema({
     required: true
   },
   image: {
-    // type: String,
     type: mongoose.SchemaTypes.Url,
     required: true
   },
@@ -26,6 +25,7 @@ const restaurantSchema = new Schema({
   },
   phone: {
     type: String,
+    maxlength: 12,
     required: true,
     validate: {
       validator: function (v) {
@@ -35,7 +35,6 @@ const restaurantSchema = new Schema({
     }
   },
   google_map: {
-    // type: String,
     type: mongoose.SchemaTypes.Url,
     required: true
   },

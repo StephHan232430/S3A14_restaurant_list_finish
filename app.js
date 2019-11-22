@@ -1,19 +1,19 @@
 // 載入框架、套件
 const express = require('express')
-const app = express()
-
-// 判別開發環境，如果不是正式上線模式，就使用dotenv讀取.env檔案
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
-
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const session = require('express-session')
 const passport = require('passport')
+// 載入connect-flash
+const flash = require('connect-flash')
+const app = express()
 
+// 判別開發環境，如果不是正式上線模式，就使用dotenv讀取.env檔案
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 // 設定連線至mongoDB，連線後回傳connection物件
 mongoose.connect('mongodb://localhost/restaurants', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 const db = mongoose.connection
@@ -30,15 +30,16 @@ db.once('open', () => {
 // 設定靜態資料夾
 app.use(express.static('public'))
 
-// 設定body-parser
-app.use(bodyParser.urlencoded({ extended: true }))
-
 // 設定樣版引擎
 app.engine('hbs', exphbs({ extname: 'hbs', defaultLayout: 'main' }))
 app.set('view engine', 'hbs')
 
+// 設定body-parser
+app.use(bodyParser.urlencoded({ extended: true }))
+
 // 設定method-override
 app.use(methodOverride('_method'))
+
 
 // 設定express-session
 app.use(session({
@@ -46,6 +47,9 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+
+// 使用connect-flash
+app.use(flash())
 
 // 使用passport
 app.use(passport.initialize())
@@ -56,9 +60,12 @@ require('./config/passport')(passport)
 
 // 把req.user內的使用者資訊放進res.locals，方便後續view使用
 // 把req.isAuthenticated()結果放進res.locals，讓view可以用來辨識使用者是否已登入
+// 將req的flash訊息存入res.locals
 app.use((req, res, next) => {
   res.locals.user = req.user
   res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.warning_msg = req.flash('warning_msg')
   next()
 })
 

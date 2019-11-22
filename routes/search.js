@@ -42,7 +42,7 @@ router.get('/', authenticated, (req, res) => {
       break
   }
 
-  Restaurant.find()
+  Restaurant.find({ userId: req.user._id })
     .or([
       { name: regex },
       { name_en: regex },
