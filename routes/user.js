@@ -89,20 +89,3 @@ router.get('/logout', (req, res) => {
 })
 
 module.exports = router
-
-
-
-
-// const { email, password } = req.body
-  // , (err, user, info) => {
-  //   let errors = []
-  //   if (err) {
-  //     return console.error(err)
-  //   }
-  //   if (info.message === '密碼錯誤' || info.message === '請先註冊才可登入使用') {
-  //     errors.push({ message: info.message })
-  //     return res.render('login', { errors, email, password })
-  //   }
-  //   if (user) {
-  //     return res.redirect('/')
-  //   }
